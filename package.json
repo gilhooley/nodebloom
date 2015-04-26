@@ -2,7 +2,7 @@
   "name": "nodebloom",
   "version": "0.1.0",
   "description": "bloomfilter-as-a-service",
-  "main": "nodebloom.js",
+  "main": "app.js",
   "scripts": {
     "test": "mocha"
   },
