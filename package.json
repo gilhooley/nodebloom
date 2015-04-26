@@ -6,6 +6,10 @@
   "scripts": {
     "test": "mocha"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gilhooley/nodebloom.git"
+  },
   "author": "Katherine Gilhooley <k.gilhooley@gmail.com> (http://katherinegilhooley.com/)",
   "license": "MIT",
   "dependencies": {
