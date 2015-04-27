@@ -1,0 +1,5 @@
+{
+  "insert": "Include a string with your insert request.",
+  "query": "Include a string with your query.",
+  "route": "We don't recognize that route. Try /query or /insert."
+}

@@ -1,5 +1,6 @@
 var express = require('express');
 var bloomFilter = require('./bloomFilter');
+var failure = require('./failure');
 
 var router = express.Router();
 
@@ -11,7 +12,7 @@ router.get('/:string', function findString(req, res) {
 });
 
 router.all('/', function stringlessQueryFailure(req, res) {
-  res.status(400).send('Include a string with your query.');
+  res.status(400).send(failure.query);
 });
 
 module.exports = router;
