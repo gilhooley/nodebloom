@@ -11,22 +11,22 @@ var BloomFilter = function(bitArraySize) {
   findHashIndices = function(string) {
     var hashFNV, hashMurmur3, hashdjb2;
 
-    hashFNV = new FNV().update(string).value() % bitArraySize;
-    hashMurmur3 = murmur.murmur3(string, 32) % bitArraySize;
-    hashdjb2 = djb2(string) % bitArraySize;
+    hashFNV = Math.abs(new FNV().update(string).value() % bitArraySize);
+    hashMurmur3 = Math.abs(murmur.murmur3(string, 32) % bitArraySize);
+    hashdjb2 = Math.abs(djb2(string) % bitArraySize);
 
-    return [].concat({hash: 'fnv', value: hashFNV}, 
-      {hash: 'murmur3', value: hashMurmur3}, 
-      {hash: 'djb2', value: hashdjb2});
+    return [].concat({hash: 'fnv', index: hashFNV}, 
+      {hash: 'murmur3', index: hashMurmur3}, 
+      {hash: 'djb2', index: hashdjb2});
   };
 
   this.insert = function(string, cb) {
     var error, hashIndexArray;
     hashIndexArray = findHashIndices(string);
     hashIndexArray.forEach(function(hashIndex) {
-      storage.set(hashIndex.value, true);
-      if(!storage.get(hashIndex.value)) {
-        error = "Error inserting at index " + hashIndex.value
+      storage.set(hashIndex.index, true);
+      if(!storage.get(hashIndex.index)) {
+        error = "Error inserting at index " + hashIndex.index
         + " with hash " + hashIndex.hash;
       }
     });
@@ -37,9 +37,9 @@ var BloomFilter = function(bitArraySize) {
     var found = true, hashIndexArray;
     hashIndexArray = findHashIndices(string);
 
-    return hashIndexArray.reduce(function(last, next) {
-      return !last ? last : storage.get(next.value);
-    }, found);
+    return hashIndexArray.every(function(hash) {
+      return storage.get(hash.index);
+    });
   };
 
 };
