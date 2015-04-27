@@ -26,15 +26,14 @@ var BloomFilter = function(bitArraySize) {
     hashIndexArray.forEach(function(hashIndex) {
       storage.set(hashIndex.index, true);
       if(!storage.get(hashIndex.index)) {
-        error = "Error inserting at index " + hashIndex.index
-        + " with hash " + hashIndex.hash;
+        if(!error) error = {};
+        error[hashIndex.hash] = hashIndex.index;
       }
     });
     return cb(error);
   };
 
   this.query = function(string) {
-    var found = true, hashIndexArray;
     hashIndexArray = findHashIndices(string);
 
     return hashIndexArray.every(function(hash) {
